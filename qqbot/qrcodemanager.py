@@ -105,6 +105,7 @@ class QrcodeManager(object):
                 global oldTime
                 nowTime = time.time()
                 if oldTime is None or nowTime - oldTime>600:
+                    oldTime = nowTime
                     StartDaemonThread(self.sendEmail)
     
     def sendEmail(self):
