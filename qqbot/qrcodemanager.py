@@ -13,7 +13,7 @@ from qqbot.qrcodeserver import QrcodeServer
 from qqbot.mailagent import MailAgent
 
 Image = None
-
+oldTime = None
 class QrcodeManager(object):
     def __init__(self, conf):
         qrcodeId = uuid.uuid4().hex
@@ -102,6 +102,10 @@ class QrcodeManager(object):
                 StartDaemonThread(self.sendEmail)
             else:
                 self.qrcode.setVal(qrcode)
+                global oldTime
+                nowTime = time.time()
+                if oldTime is None or nowTime - oldTime>600:
+                    StartDaemonThread(self.sendEmail)
     
     def sendEmail(self):
         lastSubject = ''
